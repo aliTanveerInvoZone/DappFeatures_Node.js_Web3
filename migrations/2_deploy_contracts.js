@@ -16,6 +16,6 @@ module.exports = async function (deployer, network, accounts) {
   const tokenFarm = await TokenFarm.deployed();
 
   await token.transfer(ethSwap.address, "1000000000000000000000000");
-  await daiToken.transfer(accounts[0], "100000000000000000000");
+  await daiToken.transfer(accounts[1], "100000000000000000000");
   await token.transfer(tokenFarm.address, "1000000000000000000000000");
 };

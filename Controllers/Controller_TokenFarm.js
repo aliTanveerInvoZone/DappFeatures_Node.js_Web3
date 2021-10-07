@@ -21,7 +21,7 @@ Controller.getDaiTokenBalance = function (req, res) {
   if (req.params.accountAddress) {
     _TokenFarmModel.getDaiTokenBalance(req.params.accountAddress).then((resp) => {
       if (resp.success) {
-        let value = formateValueFromWei(resp.data);
+        let value = parseFloat(formateValueFromWei(resp.data)).toFixed(2);
         res.send(createResponseBody(res.statusCode, value, "Dai Token Balance"));
       } else {
         res.status(500).send(createResponseBody(res.statusCode, null, resp.message));
@@ -36,7 +36,8 @@ Controller.getTokenFarmBalance = function (req, res) {
   if (req.params.accountAddress) {
     _TokenFarmModel.getTokenFarmBalance(req.params.accountAddress).then((resp) => {
       if (resp.success) {
-        res.send(createResponseBody(res.statusCode, resp, "Token Farm Balance"));
+        let value = parseFloat(formateValueFromWei(resp.data)).toFixed(2);
+        res.send(createResponseBody(res.statusCode, value, "Token Farm Balance"));
       } else {
         res.status(500).send(createResponseBody(res.statusCode, null, resp.message));
       }
@@ -48,7 +49,8 @@ Controller.getTokenFarmBalance = function (req, res) {
 
 Controller.stakeTokens = function (req, res) {
   if (req.fields.accountAddress && req.fields.value) {
-    _TokenFarmModel.stakeTokens(req.fields.value, req.fields.accountAddress).then((resp) => {
+    let value = formateValueToWei(req.fields.value);
+    _TokenFarmModel.stakeTokens(value, req.fields.accountAddress).then((resp) => {
       if (resp.success) {
         res.send(createResponseBody(res.statusCode, resp, "Dai Token Balance"));
       } else {
